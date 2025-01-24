@@ -98,7 +98,7 @@ export default function EnhancedScrollSection() {
                     <p className={`text-lg sm:text-xl lg:text-2xl leading-relaxed max-w-xl mt-4 lg:mt-8 px-4 lg:px-0 ${
                       isDark ? "text-gray-300" : "text-gray-700"
                     }`}>
-                      In a world where no other blockchain infrastructure can truly stand against today's threats, <span className={isDark ? "text-purple-400" : "text-purple-600"}>Quranium</span> is changing this with its truly uncrackable decentralized infrastructure.
+                      In a world where no other blockchain infrastructure can truly stand against today&apos;s threats, <span className={isDark ? "text-purple-400" : "text-purple-600"}>Quranium</span> is changing this with its truly uncrackable decentralized infrastructure.
                     </p>
                   </div>
                 </div>
@@ -131,7 +131,7 @@ export default function EnhancedScrollSection() {
                     <p className={`text-lg sm:text-xl lg:text-2xl leading-relaxed max-w-xl mt-4 lg:mt-8 px-4 lg:px-0 ${
                       isDark ? "text-gray-300" : "text-gray-700"
                     }`}>
-                      At <span className={isDark ? "text-purple-400" : "text-purple-600"}>Quranium</span>, Be Uncrackable isn't just a tag-line - it's our DNA. Our Layer 1 technology is built using Post Quantum Cryptography.
+                      At <span className={isDark ? "text-purple-400" : "text-purple-600"}>Quranium</span>, Be Uncrackable isn&apos;t just a tag-line - it&apos;s our DNA. Our Layer 1 technology is built using Post Quantum Cryptography.
                     </p>
                   </div>
                 </div>

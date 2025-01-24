@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Spline from '@splinetool/react-spline';
-import type { Application } from '@splinetool/runtime';
+import type { Application, SPEObject } from '@splinetool/runtime';
 import { useTheme } from '../context/ThemeContext';
 
 interface SplineSceneProps {
@@ -11,7 +11,7 @@ interface SplineSceneProps {
 }
 
 export default function SplineScene({ onLoad, isAnimating }: SplineSceneProps) {
-  const splineRef = useRef<Application>();
+  const splineRef = useRef<Application | undefined>(undefined);
   const { theme } = useTheme();
 
   const handleLoad = (splineApp: Application) => {
@@ -49,11 +49,12 @@ export default function SplineScene({ onLoad, isAnimating }: SplineSceneProps) {
         
         // Scale based on scroll
         const scale = 1 - scrollProgress * 0.3; // Scale down to 70% at bottom
-        laptop.scale.set(scale, scale, scale);
+        laptop.scale.x = scale;
+        laptop.scale.y = scale;
+        laptop.scale.z = scale;
       }
     };
 
-    // Add event listeners
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
 
@@ -63,50 +64,65 @@ export default function SplineScene({ onLoad, isAnimating }: SplineSceneProps) {
     };
   }, []);
 
-  // Handle theme changes
   useEffect(() => {
     if (!splineRef.current) return;
 
     const laptop = splineRef.current.findObjectByName('laptop');
     if (laptop) {
-      // Animate materials based on theme
-      const materials = laptop.materials;
-      materials.forEach(material => {
-        if (theme === 'dark') {
-          material.color.setHex(0x9333ea); // Purple for dark mode
-        } else {
-          material.color.setHex(0x4f46e5); // Indigo for light mode
+      // Get all materials from the object and its children
+      const updateMaterialColors = (obj: SPEObject) => {
+        if (obj && typeof obj === 'object' && 'material' in obj && obj.material && typeof obj.material === 'object') {
+          const color = theme === 'dark' ? 0x9333ea : 0x4f46e5;
+          const material = obj.material as { color?: { r: number; g: number; b: number } };
+          if (material.color) {
+            material.color = {
+              r: ((color >> 16) & 255) / 255,
+              g: ((color >> 8) & 255) / 255,
+              b: (color & 255) / 255
+            };
+          }
         }
-      });
+        
+        if (obj && typeof obj === 'object' && 'children' in obj && Array.isArray(obj.children)) {
+          obj.children.forEach(child => updateMaterialColors(child));
+        }
+      };
+
+      updateMaterialColors(laptop);
     }
   }, [theme]);
 
-  // Handle button click animation
   useEffect(() => {
     if (!splineRef.current || !isAnimating) return;
 
     const laptop = splineRef.current.findObjectByName('laptop');
     if (laptop) {
-      // Spin animation
-      let rotation = 0;
+      // Add animation when button is clicked
+      const startRotation = laptop.rotation.y;
+      const targetRotation = startRotation + Math.PI * 2; // Full 360° rotation
+      let progress = 0;
+      
       const animate = () => {
-        rotation += 0.1;
-        laptop.rotation.y = rotation;
-
-        if (rotation < Math.PI * 2) {
+        if (progress >= 1) return;
+        
+        progress += 0.02;
+        laptop.rotation.y = startRotation + (targetRotation - startRotation) * progress;
+        
+        if (progress < 1) {
           requestAnimationFrame(animate);
         }
       };
+      
       animate();
     }
   }, [isAnimating]);
 
   return (
-    <div className="fixed inset-0 -z-10">
+    <div className="absolute inset-0 w-full h-full">
       <Spline
         onLoad={handleLoad}
         scene="https://prod.spline.design/clTNjovJSq68QqCB/scene.splinecode"
-        style={{ width: '100%', height: '100vh' }}
+        className="w-full h-full"
       />
     </div>
   );
