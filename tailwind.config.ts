@@ -11,6 +11,26 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        dark: {
+          base: "#000000",
+          lighter: "#120318",
+          accent: {
+            100: "#1A0524",
+            200: "#2D0B3F",
+            300: "#3F1158",
+            400: "#4F1970",
+            500: "#5F2288",
+          },
+          text: {
+            primary: "#FFFFFF",
+            secondary: "#94A3B8",
+            accent: "#CBD5E1",
+          },
+          border: {
+            DEFAULT: "#1E293B",
+            accent: "#334155"
+          }
+        }
       },
       keyframes: {
         'fade-in': {

@@ -1,20 +1,20 @@
 'use client';
 
+import { APP_LINKS, SECTION_IDS } from '@/constants';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 export default function Navigation() {
-  const [activeSection, setActiveSection] = useState('hero');
+  const [activeSection, setActiveSection] = useState<keyof typeof SECTION_IDS>(SECTION_IDS.hero);
   const handleScroll = () => {
-    const sections = ['hero', 'about', 'contact'];
+    const sections = [SECTION_IDS.hero, SECTION_IDS.about, SECTION_IDS.contact];
     const viewportHeight = window.innerHeight;
     const scrollPosition = window.scrollY;
     const documentHeight = document.documentElement.scrollHeight;
     
-    // Special case for contact section (footer)
     if (scrollPosition + viewportHeight >= documentHeight - 100) {
-      if (activeSection !== 'contact') {
-        setActiveSection('contact');
+      if (activeSection !== SECTION_IDS.contact) {
+        setActiveSection(SECTION_IDS.contact);
       }
       return;
     }
@@ -39,7 +39,7 @@ export default function Navigation() {
     
     // If we're at the very top, ensure hero is active
     if (scrollPosition === 0) {
-      setActiveSection('hero');
+      setActiveSection(SECTION_IDS.hero);
     }
   };
 
@@ -67,7 +67,7 @@ export default function Navigation() {
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
-      if (sectionId === 'contact') {
+      if (sectionId === SECTION_IDS.contact) {
         // Scroll to the bottom of the page for contact section
         window.scrollTo({
           top: document.documentElement.scrollHeight,
@@ -76,20 +76,15 @@ export default function Navigation() {
       } else {
         section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-      setActiveSection(sectionId);
+      setActiveSection(sectionId as keyof typeof SECTION_IDS);
     }
   };
 
-  const links = [
-    { id: 'hero', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'contact', label: 'Contact' }
-  ];
-
+  
   return (
     <nav className="fixed top-4 right-20 z-50">
       <ul className="flex gap-6">
-        {links.map(({ id, label }) => (
+        {APP_LINKS.map(({ id, label }) => (
           <li key={id}>
             <button 
               onClick={() => scrollToSection(id)}

@@ -1,12 +1,13 @@
 'use client';
-
 import { useState, useEffect } from 'react';
+import { HERO_CONTENT } from '@/constants/content';
+import { SECTION_IDS } from '@/constants';
 
-interface HeroContentProps {
+interface ContentProps {
   onGetStarted?: () => void;
 }
 
-export default function HeroContent({ onGetStarted }: HeroContentProps) {
+export default function Content({ onGetStarted }: ContentProps) {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -18,7 +19,7 @@ export default function HeroContent({ onGetStarted }: HeroContentProps) {
     setIsButtonClicked(true);
     if (onGetStarted) onGetStarted();
     
-    const aboutSection = document.getElementById('about');
+    const aboutSection = document.getElementById(SECTION_IDS.about);
     if (aboutSection) {
       aboutSection.scrollIntoView({ 
         behavior: 'smooth',
@@ -39,18 +40,20 @@ export default function HeroContent({ onGetStarted }: HeroContentProps) {
         }}
       >
         <h1 
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
         >
-          The Uncrackable Foundation
+          <span className="bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
+            {HERO_CONTENT.title.main}
+          </span>
           <br />
-          <span className="bg-gradient-to-r from-purple-600 to-blue-500 text-transparent bg-clip-text">
-            for the Digital Era
+          <span className="bg-gradient-to-r from-purple-400 via-purple-600 to-indigo-600 text-transparent bg-clip-text">
+            {HERO_CONTENT.title.highlight}
           </span>
         </h1>
         <p 
-          className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 text-purple-200 max-w-3xl mx-auto"
         >
-          Quantum-proof, Layer 1 DLT for the next generation of digital security
+          {HERO_CONTENT.description}
         </p>
         <button
           onClick={handleGetStarted}
@@ -61,19 +64,19 @@ export default function HeroContent({ onGetStarted }: HeroContentProps) {
             font-semibold
             transform transition-all duration-300
             ${isButtonClicked ? 'scale-95' : 'scale-100'}
-            bg-gradient-to-r from-purple-600 to-blue-500
+            bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-800
             text-white
-            hover:shadow-lg hover:shadow-purple-500/25
+            hover:shadow-lg hover:shadow-purple-500/40
             active:scale-95
             relative
             overflow-hidden
           `}
         >
-          <span className="relative z-10">Explore Quranium</span>
+          <span className="relative z-10">{HERO_CONTENT.button.text}</span>
           <div 
             className={`
               absolute inset-0
-              bg-gradient-to-r from-blue-500 to-purple-600
+              bg-gradient-to-r from-indigo-800 via-purple-700 to-purple-600
               transition-opacity duration-300
               ${isButtonClicked ? 'opacity-100' : 'opacity-0'}
             `}
