@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useTheme } from '../context/ThemeContext';
 
 interface HeroContentProps {
   onGetStarted?: () => void;
@@ -10,7 +9,6 @@ interface HeroContentProps {
 export default function HeroContent({ onGetStarted }: HeroContentProps) {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const { theme } = useTheme();
 
   useEffect(() => {
     setIsVisible(true);
@@ -20,7 +18,6 @@ export default function HeroContent({ onGetStarted }: HeroContentProps) {
     setIsButtonClicked(true);
     if (onGetStarted) onGetStarted();
     
-    // Smooth scroll to about section
     const aboutSection = document.getElementById('about');
     if (aboutSection) {
       aboutSection.scrollIntoView({ 
@@ -42,9 +39,7 @@ export default function HeroContent({ onGetStarted }: HeroContentProps) {
         }}
       >
         <h1 
-          className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 ${
-            theme === 'light' ? 'text-gray-800' : 'text-white'
-          } leading-tight`}
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight"
         >
           The Uncrackable Foundation
           <br />
@@ -53,9 +48,7 @@ export default function HeroContent({ onGetStarted }: HeroContentProps) {
           </span>
         </h1>
         <p 
-          className={`text-base sm:text-lg md:text-xl lg:text-2xl mb-8 ${
-            theme === 'light' ? 'text-gray-600' : 'text-gray-200'
-          } max-w-3xl mx-auto`}
+          className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto"
         >
           Quantum-proof, Layer 1 DLT for the next generation of digital security
         </p>

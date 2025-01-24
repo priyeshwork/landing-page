@@ -1,38 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import HeroContent from './HeroContent';
-import SplineScene from './SplineScene';
+import Spline from '@splinetool/react-spline';
 
 export default function HeroSection() {
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const progress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleGetStarted = () => {
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 2000);
-  };
-
   return (
-    <section className="relative min-h-screen w-full overflow-hidden">
-      <SplineScene isAnimating={isAnimating} />
-      <div 
-        className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10 pointer-events-none"
-        style={{
-          opacity: Math.max(0.1, Math.min(1, scrollProgress * 2))
-        }}
-      />
-      <HeroContent onGetStarted={handleGetStarted} />
-    </section>
+    <div>
+      <div className="relative">
+        <Spline scene={process.env.NEXT_PUBLIC_SPLINE_SCENE_HUMAN} />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+        <HeroContent/>
+        </div>
+      </div>
+      
+    </div>
   );
 }
