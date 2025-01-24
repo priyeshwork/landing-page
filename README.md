@@ -2,6 +2,10 @@
 
 A modern, responsive landing page. Built with Next.js 14, Tailwind CSS, and Framer Motion.
 
+
+![CleanShot 2025-01-24 at 11  27 15@2x](https://github.com/user-attachments/assets/ae86475f-a840-49b6-b073-fa9e9ab948a5)
+
+
 ## Features
 
 - 🎨 Modern UI with smooth animations and transitions
