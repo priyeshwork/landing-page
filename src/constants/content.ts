@@ -5,7 +5,7 @@ export const HERO_CONTENT = {
   },
   description: "Quantum-proof, Layer 1 DLT for the next generation of digital security",
   button: {
-    text: "Explore Quranium"
+    text: "Get Started"
   }
 };
 

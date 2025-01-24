@@ -1,23 +1,37 @@
 'use client';
-import { SECTION_IDS } from '@/constants';
-import Content from './Content';
+import { useState } from 'react';
 import Spline from '@splinetool/react-spline';
+import Content from './Content';
+import { SECTION_IDS } from '@/constants';
 
 export default function Hero() {
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleSplineAction = () => {
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 1000);
+  };
+
   return (
-    <div id={SECTION_IDS.hero} className="h-[100vh] w-full overflow-hidden">
-      <div className="relative h-full w-full">
-        <div className="absolute inset-0">
-          <Spline 
-            scene={process.env.NEXT_PUBLIC_SPLINE_SCENE_HUMAN}
-          />
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <Content />
-        </div>
-        {/* Gradient overlay for smooth transition to About section */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-black/80 to-black pointer-events-none" />
+    <section id={SECTION_IDS.hero} className="relative min-h-screen w-full overflow-hidden">
+      {/* Spline container */}
+      <div 
+        className={`
+          absolute inset-0 w-full h-full transition-transform duration-300
+          ${isAnimating ? 'scale-110 brightness-150' : 'scale-100 brightness-100'}
+        `}
+      >
+        <Spline
+          scene={process.env.NEXT_PUBLIC_SPLINE_SCENE_HUMAN || ''}
+          className="transition-all duration-300"
+        />
       </div>
-    </div>
+
+      {/* Content */}
+      <Content onSplineAction={handleSplineAction} />
+
+      {/* Gradient overlay */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+    </section>
   );
 }
